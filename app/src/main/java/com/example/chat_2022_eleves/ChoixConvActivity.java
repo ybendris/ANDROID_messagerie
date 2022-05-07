@@ -33,7 +33,7 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnChoixConv:
                 gs.alerter("click OK");
 
-                Log.i(gs.CAT, String.valueOf(spinConversations.get));
+                //Log.i(gs.CAT, String.valueOf(spinConversations.get));
 
 
                 break;
@@ -114,7 +114,7 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
                 Log.i(gs.CAT,listeConvs.toString());
                 spinConversations = (Spinner) findViewById(R.id.spinConversations);
                 //ArrayAdapter<Conversation> dataAdapter = new ArrayAdapter<Conversation>(
-                //        ChoixConversationActivity.this,
+                //        ChoixConvActivity.this,
                 //        android.R.layout.simple_spinner_item,
                 //        listeConvs.getConversations());
                 //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
