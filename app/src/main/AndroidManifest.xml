@@ -14,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat_2022_eleves">
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginActivity_"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".ChoixConvActivity"></activity>
+        <activity android:name=".ChoixConvActivity_"></activity>
+        <activity android:name=".ConvActivity_"></activity>
     </application>
 
 </manifest>
