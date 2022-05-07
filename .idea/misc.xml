@@ -3,8 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_choix_conversation.xml" value="0.25" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_conversation.xml" value="0.36666666666666664" />
+
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/drawable/rounded.xml" value="0.2555" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/layout/activity_choix_conversation.xml" value="0.24365942028985507" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/layout/activity_show_conversation.xml" value="0.264" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/layout/material_design.xml" value="0.22826086956521738" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/layout/newloginactivity.xml" value="0.264" />
+        <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/xml/preferences.xml" value="0.25" />
+        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_choix_conversation.xml" value="0.19746376811594202" />
+
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_login.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/dropdown_items.xml" value="0.2536231884057971" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/spinner_item.xml" value="0.19746376811594202" />

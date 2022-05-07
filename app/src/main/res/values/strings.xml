@@ -3,8 +3,10 @@
     <string name="appname">Clavardons !</string>
     <string name="login">Login :</string>
     <string name="passe">Mot de passe :</string>
-    <string name="remember">Se souvenir de moi :</string>
+    <string name="remember">Rester connecté(e) ? </string>
     <string name="choix_conversation">Choix Conversation</string>
-    <string name="choisir_la_conversation">choisir</string>
-    <string name="ok">OK</string>
+
+    <string name="conversation">Conversation</string>
+    <string name="SaisieMDP">Mot de passe</string>
+    <string name="identifiant">Identifiant</string>
 </resources>
