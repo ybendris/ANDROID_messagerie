@@ -5,4 +5,6 @@
     <string name="passe">Mot de passe :</string>
     <string name="remember">Se souvenir de moi :</string>
     <string name="choix_conversation">Choix Conversation</string>
+    <string name="choisir_la_conversation">choisir</string>
+    <string name="ok">OK</string>
 </resources>

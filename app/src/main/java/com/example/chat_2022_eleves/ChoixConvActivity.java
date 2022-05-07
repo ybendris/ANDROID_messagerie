@@ -1,136 +1,125 @@
 package com.example.chat_2022_eleves;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChoixConvActivity extends AppCompatActivity implements View.OnClickListener{
 
-    GlobalState gs;
-    public Spinner spinConversations;
-    public Button btnChoixConv;
+@EActivity(R.layout.activity_choix_conversation)
+public class ChoixConvActivity extends AppCompatActivity{
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnChoixConv:
-                gs.alerter("click OK");
+    private static final String CAT = "LE4-SI";
+    APIInterface apiService;
+    String hash;
+    ListConversations lc;
+    int idItemSelected = Integer.MAX_VALUE;
 
-                Log.i(gs.CAT, String.valueOf(spinConversations.get));
+    @ViewById(R.id.dropdown_text)
+    AutoCompleteTextView dropdownText;
 
-
-                break;
-
-        }
-    }
-
-    public class MyCustomAdapter extends ArrayAdapter<Conversation> {
-        private int layoutId;
-        private ArrayList<Conversation> dataConvs;
-
-        public MyCustomAdapter(Context context,
-                               int itemLayoutId,
-                               ArrayList<Conversation> objects) {
-            super(context, itemLayoutId, objects);
-            layoutId = itemLayoutId;
-            dataConvs = objects;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            //return getCustomView(position, convertView, parent);
-            // getLayoutInflater() vient de Android.Activity => il faut utiliser une classe interne
-            LayoutInflater inflater = getLayoutInflater();
-            View item = inflater.inflate(layoutId, parent, false);
-            Conversation nextC = dataConvs.get(position);
-
-            TextView label = (TextView) item.findViewById(R.id.spinner_theme);
-            label.setText(nextC.getTheme());
-
-            ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-            if (nextC.getActive()) icon.setImageResource(R.drawable.icon36);
-            else icon.setImageResource(R.drawable.icongray36);
-
-            return item;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            //return getCustomView(position, convertView, parent);
-            LayoutInflater inflater = getLayoutInflater();
-            View item = inflater.inflate(layoutId, parent, false);
-            Conversation nextC = dataConvs.get(position);
-
-            TextView label = (TextView) item.findViewById(R.id.spinner_theme);
-            label.setText(nextC.getTheme());
-
-            ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-            if (nextC.getActive()) icon.setImageResource(R.drawable.icon);
-            else icon.setImageResource(R.drawable.icongray);
-            return item;
-        }
-
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choix_conversation);
-        btnChoixConv = findViewById(R.id.btnChoixConv);
-
-
-        btnChoixConv.setOnClickListener(this);
-        gs = (GlobalState) getApplication();
+    @AfterViews
+    void initialize() {
         Bundle bdl = this.getIntent().getExtras();
-        gs.alerter("hash : " + bdl.getString("hash"));
-        String hash = bdl.getString("hash");
+        Log.i(CAT,bdl.getString("hash"));
+        hash = bdl.getString("hash");
 
-
-
-        APIInterface apiService = APIClient.getClient().create(APIInterface.class);
-
+        apiService = APIClient.getClient().create(APIInterface.class);
         Call<ListConversations> call1 = apiService.doGetListConversation(hash);
+        doInBackground(call1);
+    }
+
+    @Background
+    void doInBackground(Call<ListConversations> call1) {
         call1.enqueue(new Callback<ListConversations>() {
             @Override
-            public void onResponse(Call<ListConversations> call, Response<ListConversations> response) {
-                ListConversations listeConvs = response.body();
-                Log.i(gs.CAT,listeConvs.toString());
-                spinConversations = (Spinner) findViewById(R.id.spinConversations);
-                //ArrayAdapter<Conversation> dataAdapter = new ArrayAdapter<Conversation>(
-                //        ChoixConversationActivity.this,
-                //        android.R.layout.simple_spinner_item,
-                //        listeConvs.getConversations());
-                //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                //spinConversations.setAdapter(dataAdapter);
-                spinConversations.setAdapter(new MyCustomAdapter(ChoixConvActivity.this,
-                        R.layout.spinner_item,
-                        listeConvs.getConversations()));
+            public void onResponse(@NotNull Call<ListConversations> call, @NotNull Response<ListConversations> response) {
+                lc = response.body();
+                List<String> spinnerArray =  new ArrayList<>();
+                List<Integer> idArray = new ArrayList<>();
+                for(Conversation c : lc.conversations) {
+                    spinnerArray.add(c.theme);
+                    idArray.add(Integer.parseInt(c.id));
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        ChoixConvActivity.this,
+                        R.layout.dropdown_items,
+                        spinnerArray
+                );
 
-                btnChoixConv.setEnabled(true);
+                onPostExecute(adapter, idArray);
             }
 
             @Override
-            public void onFailure(Call<ListConversations> call, Throwable t) {
+            public void onFailure(@NotNull Call<ListConversations> call, @NotNull Throwable t) {
                 call.cancel();
-                btnChoixConv.setEnabled(false);
             }
         });
+    }
+
+    @UiThread
+    void onPostExecute(ArrayAdapter<String> adapter, List<Integer> idArray) {
+        dropdownText.setAdapter(adapter);
+        dropdownText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int arg2, long arg3) {
+                alerter("ID ITEM SELECTED " + Integer.toString(idArray.get(arg2 + 1)));
+                idItemSelected = idArray.get(arg2);
+            }
+        });
+        Log.i(CAT,lc.toString());
+    }
+
+    @Click
+    void buttonChoixOKMD() {
+        alerter("Click sur OK Conv");
+        if(idItemSelected == Integer.MAX_VALUE){
+            dropdownText.setError("Veuillez sélectionner une conversation",null);
+            alerter("Veuillez sélectionner une conversation");
+        }else{
+            Intent change2Conv = new Intent(this,ConvActivity_.class);
+            Bundle bdl = new Bundle();
+            bdl.putString("conv", Integer.toString(idItemSelected));
+            bdl.putString("hash", hash);
+            change2Conv.putExtras(bdl);
+            startActivity(change2Conv);
+        }
+    }
+
+    private void alerter(String s) {
+        Log.i(CAT,s);
+        Toast t = Toast.makeText(this,s,Toast.LENGTH_SHORT);
+        t.show();
     }
 }

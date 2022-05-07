@@ -17,104 +17,38 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+@EActivity(R.layout.activity_login)
+public class LoginActivity extends AppCompatActivity {
 
+    @ViewById(R.id.edtLogin)
     public EditText edtLogin;
+
+    @ViewById(R.id.edtPasse)
     public EditText edtPasse;
+
+    @ViewById(R.id.btnLogin)
     public Button btnLogin;
+
+    @ViewById(R.id.cbRemember)
     public CheckBox cbRemember;
+
     public SharedPreferences sp;
     public GlobalState gs;
 
 
-    class JSONAsyncTask extends AsyncTask<String, Void, JSONObject> {
-        // Params, Progress, Result
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.i(gs.CAT,"onPreExecute");
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... data) {
-            // pas d'interaction avec l'UI Thread ici
-            // String... data : ellipse
-            // data[0] contient le premier argument passé à .execute(...)
-            // data[1] contient le second argument passé à .execute(...)
-
-            // {"promo":"2020-2021",
-            // "enseignants":[
-            // {"prenom":"Mohamed","nom":"Boukadir"},
-            // {"prenom":"Thomas","nom":"Bourdeaud'huy"},
-            // {"prenom":"Mathieu","nom":"Haussher"},
-            // {"prenom":"Slim","nom":"Hammadi"}]}
-
-            Log.i(gs.CAT,"doInBackground");
-            String res = gs.requeteGET(data[0] ,data[1]);
-            try {
-                JSONObject ob = new JSONObject(res);
-                return ob;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(JSONObject result) {
-            Log.i(gs.CAT,"onPostExecute");
-            // parcourir le json reçu et afficher les enseignants
-            gs.alerter(result.toString());
-            // Utiliser la librairie gson pour l'afficher
-
-            Gson gson = new GsonBuilder()
-                    .serializeNulls()
-                    .disableHtmlEscaping()
-                    .setPrettyPrinting()
-                    .create();
-
-            gs.alerter(gson.toJson(result));
-            Promo p = gson.fromJson(result.toString(),Promo.class);
-            gs.alerter(p.toString());
-
-            try {
-                String s = "";
-                JSONArray tabProfs = result.getJSONArray("enseignants");
-                for(int i=0;i<tabProfs.length();i++) {
-                    JSONObject nextProf = tabProfs.getJSONObject(i);
-                    s += nextProf.getString("prenom") + " "
-                        + nextProf.getString("nom") + " ";
-                }
-                gs.alerter(s);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        edtLogin = findViewById(R.id.edtLogin);
-        edtPasse = findViewById(R.id.edtPasse);
-        btnLogin = findViewById(R.id.btnLogin);
-        cbRemember = findViewById(R.id.cbRemember);
+    @AfterViews
+    void init() {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        btnLogin.setOnClickListener(this);
-        cbRemember.setOnClickListener(this);
         gs = (GlobalState) getApplication();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Si le réseau est disponible, alors on réactive le bouton OK
         btnLogin.setEnabled(gs.verifReseau());
 
         // relire les préférences de l'application
@@ -125,7 +59,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             edtLogin.setText(sp.getString("login",""));
             edtPasse.setText(sp.getString("passe",""));
             cbRemember.setChecked(true);
-        } else {
+        }
+        else {
             // on vide
             edtLogin.setText("");
             edtPasse.setText("");
@@ -133,12 +68,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Click(R.id.btnLogin)
+    void onClickBtnLogin(){
+        gs.alerter("click OK");
+        //gs.requeteGET("http://tomnab.fr/fixture/","");
+        //JSONAsyncTask reqGET = new JSONAsyncTask();
+        //reqGET.execute("http://tomnab.fr/fixture/","cle=valeur");
+
+        // http://tomnab.fr/chat-api/authenticate
+        PostAsyncTask reqPOST= new PostAsyncTask();
+        reqPOST.execute("http://tomnab.fr/chat-api/authenticate",
+                "user=" + edtLogin.getText().toString()
+                        + "&password=" + edtPasse.getText().toString());
+    }
+
+    @Click(R.id.cbRemember)
+    void onClickCbRemember(){
+        SharedPreferences.Editor editor = sp.edit();
+        gs.alerter("click Se souvenir de moi");
+        if (cbRemember.isChecked()) {
+            // on sauvegarde tout
+            editor.putBoolean("remember", true);
+            editor.putString("login",edtLogin.getText().toString());
+            editor.putString("passe",edtPasse.getText().toString());
+        } else {
+            // on oublie tout
+            editor.putBoolean("remember", false);
+            editor.putString("login","");
+            editor.putString("passe","");
+        }
+        editor.commit();
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -146,13 +113,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch(id) {
             case R.id.action_settings: gs.alerter("Préférences");
 
-            // Changer d'activité pour afficher SettingsActivity
+                // Changer d'activité pour afficher SettingsActivity
                 Intent toSettings = new Intent(this,SettingsActivity.class);
                 startActivity(toSettings);
 
 
-            break;
-            case R.id.action_account: gs.alerter("Compte");break;
+                break;
+            case R.id.action_account:
+                gs.alerter("Compte");
+                break;
 
         }
         return super.onOptionsItemSelected(item);
@@ -182,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected void onPostExecute(String hash) {
             // changer d'activité => ChoixConversations
             if (hash == "") return;
-            Intent versChoixConv = new Intent(LoginActivity.this,ChoixConvActivity.class);
+            Intent versChoixConv = new Intent(LoginActivity.this,ChoixConvActivity_.class);
             Bundle bdl = new Bundle();
             bdl.putString("hash",hash);
             versChoixConv.putExtras(bdl);
@@ -191,41 +160,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    @Override
-    public void onClick(View view) {
-
-        SharedPreferences.Editor editor = sp.edit();
-        switch (view.getId()) {
-            case R.id.btnLogin:
-                // TODO : il faudrait sauvegarder les identifiants dans les préférences
-                gs.alerter("click OK");
-                //gs.requeteGET("http://tomnab.fr/fixture/","");
-                //JSONAsyncTask reqGET = new JSONAsyncTask();
-                //reqGET.execute("http://tomnab.fr/fixture/","cle=valeur");
-
-                // http://tomnab.fr/chat-api/authenticate
-                PostAsyncTask reqPOST= new PostAsyncTask();
-                reqPOST.execute("http://tomnab.fr/chat-api/authenticate",
-                        "user=" + edtLogin.getText().toString()
-                        + "&password=" + edtPasse.getText().toString());
-
-
-                break;
-            case R.id.cbRemember:
-                if (cbRemember.isChecked()) {
-                    // on sauvegarde tout
-                    editor.putBoolean("remember", true);
-                    editor.putString("login",edtLogin.getText().toString());
-                    editor.putString("passe",edtPasse.getText().toString());
-                } else {
-                    // on oublie tout
-                    editor.putBoolean("remember", false);
-                    editor.putString("login","");
-                    editor.putString("passe","");
-                }
-
-            break;
-        }
-        editor.commit();
-    }
 }

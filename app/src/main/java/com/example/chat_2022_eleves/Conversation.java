@@ -26,4 +26,5 @@ public class Conversation {
     }
 
     public String getId() { return id; }
+
 }

@@ -44,8 +44,7 @@ public class GlobalState extends Application {
     }
 
 
-    public boolean verifReseau()
-    {
+    public boolean verifReseau() {
         // On vérifie si le réseau est disponible,
         // si oui on change le statut du bouton de connexion
         ConnectivityManager cnMngr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
