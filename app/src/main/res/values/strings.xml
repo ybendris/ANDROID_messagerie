@@ -9,4 +9,6 @@
     <string name="conversation">Conversation</string>
     <string name="SaisieMDP">Mot de passe</string>
     <string name="identifiant">Identifiant</string>
+    <string name="choisir_la_conversation">choix</string>
+    <string name="ok">ok</string>
 </resources>
