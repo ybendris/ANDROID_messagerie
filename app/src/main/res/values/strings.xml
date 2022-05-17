@@ -5,6 +5,7 @@
     <string name="passe">Mot de passe :</string>
     <string name="remember">Rester connecté(e) ? </string>
     <string name="choix_conversation">Choix Conversation</string>
+
     <string name="conversation">Conversation</string>
     <string name="SaisieMDP">Mot de passe</string>
     <string name="identifiant">Identifiant</string>

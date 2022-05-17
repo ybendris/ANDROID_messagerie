@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textView2"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -139,5 +140,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ig2i" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,6 +63,7 @@ public class ChoixConvActivity extends AppCompatActivity{
     void doInBackground(Call<ListConversations> call1) {
         call1.enqueue(new Callback<ListConversations>() {
             @Override
+
             public void onResponse(@NotNull Call<ListConversations> call, @NotNull Response<ListConversations> response) {
                 lc = response.body();
                 List<String> spinnerArray =  new ArrayList<>();
