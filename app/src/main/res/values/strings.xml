@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Chat_2022_eleves</string>
-    <string name="appname">Clavardons !</string>
+    <string name="app_name">IG2I Messagerie</string>
+    <string name="appname">Messagerie</string>
     <string name="login">Login :</string>
     <string name="passe">Mot de passe :</string>
     <string name="remember">Rester connecté(e) ? </string>
@@ -9,4 +9,6 @@
     <string name="conversation">Conversation</string>
     <string name="SaisieMDP">Mot de passe</string>
     <string name="identifiant">Identifiant</string>
+    <string name="choisir_la_conversation">Liste des conversations</string>
+    <string name="ok">ok</string>
 </resources>

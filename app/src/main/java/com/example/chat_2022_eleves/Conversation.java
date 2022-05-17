@@ -1,5 +1,7 @@
 package com.example.chat_2022_eleves;
 
+import android.view.Menu;
+
 public class Conversation {
     String id;
     String active;

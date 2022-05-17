@@ -18,10 +18,10 @@
         <EditTextPreference
             android:defaultValue=""
             android:key="login"
-            android:title="Login" />
+            android:title="Identifiant" />
         <EditTextPreference
             android:defaultValue=""
             android:key="passe"
-            android:title="Passe" />
+            android:title="Mot de passe" />
     </PreferenceCategory>
 </PreferenceScreen>

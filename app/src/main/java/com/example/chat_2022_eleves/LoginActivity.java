@@ -100,34 +100,6 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.action_settings: gs.alerter("Préférences");
-
-                // Changer d'activité pour afficher SettingsActivity
-                Intent toSettings = new Intent(this,SettingsActivity.class);
-                startActivity(toSettings);
-
-
-                break;
-            case R.id.action_account:
-                gs.alerter("Compte");
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     class PostAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

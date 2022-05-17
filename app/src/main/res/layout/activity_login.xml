@@ -7,37 +7,39 @@
     tools:context=".LoginActivity">
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textView2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textAccueil"
+        android:layout_width="350dp"
+        android:layout_height="20dp"
+        android:text="Bienvenue sur la messagerie interne de l'IG2I !"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.363" />
+
+    <TextView
+        android:id="@+id/textSaveLog"
+        android:layout_width="190dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:text="Rester Connecté(e) ?"
+        android:textAlignment="gravity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/texteConnexion"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="200dp"
-        android:hint="@string/identifiant"
-
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:text="Connexion"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54">
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textColorHint="#4E342E"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textView3"
@@ -61,7 +63,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.559">
+        app:layout_constraintVertical_bias="0.621">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtPasse"
@@ -74,58 +76,55 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/texteConnexion"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textView2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="64dp"
-        android:text="Connexion"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="200dp"
+        android:hint="@string/identifiant"
+
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.582">
 
 
-    <TextView
-        android:id="@+id/textSaveLog"
-        android:layout_width="190dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
-        android:text="Rester Connecté(e) ?"
-        android:textAlignment="gravity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="#4E342E"
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/cbRemember"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:textAlignment="center"
         app:layout_constraintStart_toEndOf="@+id/textSaveLog"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:useMaterialThemeColors="true" />
-
-    <TextView
-        android:id="@+id/textAccueil"
-        android:layout_width="280dp"
-        android:layout_height="20dp"
-        android:text="Bienvenue sur le Chat interne de l'IG2I !"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.382" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="Se connecter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textSaveLog" />
