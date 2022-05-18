@@ -2,29 +2,29 @@ package com.example.chat_2022_eleves;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.chat_2022_eleves.api.APIClient;
+import com.example.chat_2022_eleves.api.APIInterface;
+import com.example.chat_2022_eleves.object.Authentification;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
@@ -43,13 +43,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public SharedPreferences sp;
     public GlobalState gs;
-
+    public APIInterface apiService;
+    Authentification auth;
 
     @AfterViews
     void init() {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         gs = (GlobalState) getApplication();
         btnLogin.setEnabled(gs.verifReseau());
+        apiService = APIClient.getClient().create(APIInterface.class);
 
         // relire les préférences de l'application
         // mettre à jour le formulaire
@@ -71,15 +73,31 @@ public class LoginActivity extends AppCompatActivity {
     @Click(R.id.btnLogin)
     void onClickBtnLogin(){
         gs.alerter("click OK");
-        //gs.requeteGET("http://tomnab.fr/fixture/","");
-        //JSONAsyncTask reqGET = new JSONAsyncTask();
-        //reqGET.execute("http://tomnab.fr/fixture/","cle=valeur");
+        Call<Authentification> call1 = apiService.doAuthenticate(edtLogin.getText().toString(),edtPasse.getText().toString());
+        doInBackground(call1);
+    }
 
-        // http://tomnab.fr/chat-api/authenticate
-        PostAsyncTask reqPOST= new PostAsyncTask();
-        reqPOST.execute("http://tomnab.fr/chat-api/authenticate",
-                "user=" + edtLogin.getText().toString()
-                        + "&password=" + edtPasse.getText().toString());
+    @Background
+    void doInBackground(Call<Authentification> call1) {
+        call1.enqueue(new Callback<Authentification>() {
+            @Override
+            public void onResponse(@NotNull Call<Authentification> call, @NotNull Response<Authentification> response) {
+                auth = response.body();
+                Log.i(gs.CAT,response.body().toString());
+
+                Intent versChoixConv = new Intent(LoginActivity.this,ChoixConvActivity_.class);
+                Bundle bdl = new Bundle();
+                bdl.putString("hash",auth.getHash());
+
+                versChoixConv.putExtras(bdl);
+                startActivity(versChoixConv);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Authentification> call, @NotNull Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     @Click(R.id.cbRemember)
@@ -99,37 +117,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         editor.commit();
     }
-
-    class PostAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... data) {
-            String res = gs.requetePOST(data[0] ,data[1]);
-            // {"version":1.3,"success":true,
-            // "status":202,"hash":"efd18c70f94a580d9dc85533ddcd9823"}
-            try {
-                JSONObject ob = new JSONObject(res);
-                return ob.getString("hash");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return "";
-            }
-        }
-
-        protected void onPostExecute(String hash) {
-            // changer d'activité => ChoixConversations
-            if (hash == "") return;
-            Intent versChoixConv = new Intent(LoginActivity.this,ChoixConvActivity_.class);
-            Bundle bdl = new Bundle();
-            bdl.putString("hash",hash);
-            versChoixConv.putExtras(bdl);
-            startActivity(versChoixConv);
-        }
-    }
-
-
 }

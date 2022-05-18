@@ -1,24 +1,21 @@
 package com.example.chat_2022_eleves;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.chat_2022_eleves.api.APIClient;
+import com.example.chat_2022_eleves.api.APIInterface;
+import com.example.chat_2022_eleves.object.Conversation;
+import com.example.chat_2022_eleves.object.ListConversations;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -38,12 +35,11 @@ import retrofit2.Response;
 
 @EActivity(R.layout.activity_choix_conversation)
 public class ChoixConvActivity extends AppCompatActivity{
-
-    private static final String CAT = "LE4-SI";
     APIInterface apiService;
     String hash;
-    ListConversations lc;
+    ListConversations conversations;
     int idItemSelected = Integer.MAX_VALUE;
+    public GlobalState gs;
 
     @ViewById(R.id.dropdown_text)
     AutoCompleteTextView dropdownText;
@@ -51,8 +47,9 @@ public class ChoixConvActivity extends AppCompatActivity{
     @AfterViews
     void initialize() {
         Bundle bdl = this.getIntent().getExtras();
-        Log.i(CAT,bdl.getString("hash"));
+        Log.i(gs.CAT,bdl.getString("hash"));
         hash = bdl.getString("hash");
+        gs = (GlobalState) getApplication();
 
         apiService = APIClient.getClient().create(APIInterface.class);
         Call<ListConversations> call1 = apiService.doGetListConversation(hash);
@@ -65,12 +62,12 @@ public class ChoixConvActivity extends AppCompatActivity{
             @Override
 
             public void onResponse(@NotNull Call<ListConversations> call, @NotNull Response<ListConversations> response) {
-                lc = response.body();
+                conversations = response.body();
                 List<String> spinnerArray =  new ArrayList<>();
                 List<Integer> idArray = new ArrayList<>();
-                for(Conversation c : lc.conversations) {
-                    spinnerArray.add(c.theme);
-                    idArray.add(Integer.parseInt(c.id));
+                for(Conversation c : conversations.getConversations()) {
+                    spinnerArray.add(c.getTheme());
+                    idArray.add(Integer.parseInt(c.getId()));
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         ChoixConvActivity.this,
@@ -93,45 +90,32 @@ public class ChoixConvActivity extends AppCompatActivity{
         dropdownText.setAdapter(adapter);
         dropdownText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int arg2, long arg3) {
-                alerter("ID ITEM SELECTED " + Integer.toString(idArray.get(arg2 + 1)));
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                gs.alerter("ID ITEM SELECTED " + Integer.toString(idArray.get(arg2)));
                 idItemSelected = idArray.get(arg2);
             }
         });
-        Log.i(CAT,lc.toString());
+        Log.i(gs.CAT, conversations.toString());
     }
 
     @Click
     void buttonChoixOKMD() {
-        alerter("Click sur OK Conv");
+        gs.alerter("Click sur OK Conv");
         if(idItemSelected == Integer.MAX_VALUE){
             dropdownText.setError("Veuillez sélectionner une conversation",null);
-            alerter("Veuillez sélectionner une conversation");
-        }else{
+            gs.alerter("Veuillez sélectionner une conversation");
+        }
+        else{
             Intent change2Conv = new Intent(this,ConvActivity_.class);
             Bundle bdl = new Bundle();
-            bdl.putString("conv", Integer.toString(idItemSelected));
+            bdl.putString("conversationId", Integer.toString(idItemSelected));
             bdl.putString("hash", hash);
             change2Conv.putExtras(bdl);
             startActivity(change2Conv);
         }
     }
 
-    private void alerter(String s) {
-        Log.i(CAT,s);
-        Toast t = Toast.makeText(this,s,Toast.LENGTH_SHORT);
-        t.show();
-    }
-
-    public GlobalState gs;
-
-    void init(){
-        gs = (GlobalState) getApplication();
-    }
-
     public boolean onCreateOptionsMenu(Menu menu) {
-        init();
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -140,8 +124,8 @@ public class ChoixConvActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id) {
-            case R.id.action_settings: gs.alerter("Préférences");
-
+            case R.id.action_settings:
+                gs.alerter("Préférences");
                 // Changer d'activité pour afficher SettingsActivity
                 Intent toSettings = new Intent(this,SettingsActivity.class);
                 startActivity(toSettings);
