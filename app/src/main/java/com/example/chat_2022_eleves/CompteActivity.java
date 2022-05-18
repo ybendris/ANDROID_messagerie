@@ -4,13 +4,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chat_2022_eleves.api.APIClient;
+import com.example.chat_2022_eleves.api.APIInterface;
+import com.example.chat_2022_eleves.object.Authentification;
+import com.example.chat_2022_eleves.object.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @EActivity(R.layout.activity_compte)
 public class CompteActivity extends AppCompatActivity {
@@ -21,7 +38,7 @@ public class CompteActivity extends AppCompatActivity {
     @ViewById(R.id.edtMdpCompte)
     public EditText edtPasse;
 
-    @ViewById(R.id.edtMdpCompte)
+    @ViewById(R.id.edtMdpCompte2)
     public EditText edtPasse2;
 
     @ViewById(R.id.btnChangeMdp)
@@ -29,50 +46,55 @@ public class CompteActivity extends AppCompatActivity {
 
     public SharedPreferences sp;
     public GlobalState gs;
+    public APIInterface apiService;
+    User mdp;
+    String hash;
 
+    @AfterViews
+    void init() {
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        gs = (GlobalState) getApplication();
+        Bundle bdl = this.getIntent().getExtras();
+        hash = bdl.getString("hash");
+        apiService = APIClient.getClient().create(APIInterface.class);
+    }
 
     @Click(R.id.btnChangeMdp)
     void onClickbtnChangerMdp(){
-        gs.alerter("Changer mot de passe");
-        //gs.requeteGET("http://tomnab.fr/fixture/","");
-        //JSONAsyncTask reqGET = new JSONAsyncTask();
-        //reqGET.execute("http://tomnab.fr/fixture/","cle=valeur");
+        gs.alerter("Changement ...");
+        Log.i("IG2I",edtPasse.getText().toString() );
+        Log.i("IG2I",edtPasse2.getText().toString() );
+        String mdp1 = edtPasse.getText().toString();
+        String mdp2 = edtPasse2.getText().toString();
+        Log.i("IG2I",mdp1);
+        Log.i("IG2I",mdp2);
+        if(mdp1.equals(mdp2)){
+            Call<User> call1 = apiService.doNewMDP(hash,edtPasse.getText().toString());
+            doInBackground(call1);
+        }
+        else{
+            gs.alerter("Les mots de passes ne sont pas identiques");
+            return;
+        }
 
-        // http://tomnab.fr/chat-api/authenticate
-        LoginActivity.PostAsyncTask reqPUT= new CompteActivity.PostAsyncTask();
-        reqPUT.execute("http://tomnab.fr/chat-api/authenticate",
-                "user=" + edtLogin.getText().toString()
-                        + "&password=" + edtPasse.getText().toString());
     }
 
-    class PostAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    @Background
+    void doInBackground(Call<User> call1) {
+        call1.enqueue(new Callback<User>(){
 
-        @Override
-        protected String doInBackground(String... data) {
-            String res = gs.requetePOST(data[0] ,data[1]);
-            // {"version":1.3,"success":true,
-            // "status":202,"hash":"efd18c70f94a580d9dc85533ddcd9823"}
-            try {
-                JSONObject ob = new JSONObject(res);
-                return ob.getString("hash");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return "";
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (hash == "") return;
+                Log.i("IG2I", String.valueOf(response.body()));
+                gs.alerter("Mot de passe modifié");
             }
-        }
 
-        protected void onPostExecute(String hash) {
-            // changer d'activité => ChoixConversations
-            if (hash == "") return;
-            Intent versLogin = new Intent(CompteActivity.this,LoginActivity.class);
-            Bundle bdl = new Bundle();
-            bdl.putString("hash",hash);
-            versLogin.putExtras(bdl);
-            startActivity(versLogin);
-        }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
 
 }
