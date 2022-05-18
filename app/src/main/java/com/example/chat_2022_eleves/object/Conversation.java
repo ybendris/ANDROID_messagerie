@@ -1,14 +1,9 @@
-package com.example.chat_2022_eleves;
-
-import android.view.Menu;
+package com.example.chat_2022_eleves.object;
 
 public class Conversation {
     String id;
     String active;
     String theme;
-
-
-    // {"id":"23","active":"0","theme":"test"
 
     @Override
     public String toString() {
@@ -28,5 +23,4 @@ public class Conversation {
     }
 
     public String getId() { return id; }
-
 }
