@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/conversation_svLayoutMessages"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/teal_200"
-    android:layout_marginBottom="5dp"
+    android:layout_margin="10dp"
+
     >
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/auteur_MaterialTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:paddingBottom="5dp"
             android:textStyle="bold"
             android:textSize="14dp"
+            android:background="@color/Orange2i"
             >
         </com.google.android.material.textview.MaterialTextView>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message_MaterialTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:textColor="@color/black"
-            android:paddingBottom="100dp"
             android:textSize="13dp"
-            >
-        </com.google.android.material.textview.MaterialTextView>
+            android:background="@drawable/rounded_corner"
+
+            ></com.google.android.material.textview.MaterialTextView>
 </LinearLayout>
 
