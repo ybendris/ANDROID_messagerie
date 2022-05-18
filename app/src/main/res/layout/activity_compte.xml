@@ -8,96 +8,53 @@
 
 
     <TextView
-        android:id="@+id/textAccueil"
-        android:layout_width="350dp"
-        android:layout_height="20dp"
-        android:text="Bienvenue sur la messagerie interne de l'IG2I !"
+        android:id="@+id/TextCompte"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="50dp"
+        android:text="Paramètres de mon compte"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Logo2iLogin"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
 
     <TextView
-        android:id="@+id/textSaveLog"
-        android:layout_width="190dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="56dp"
-        android:text="Rester Connecté(e) ?"
-        android:textAlignment="gravity"
+        android:id="@+id/TextParamCompte"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="120dp"
+        android:text="Changer votre mot de passe"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textConnexion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Connexion"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+    </TextView>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textView3"
+        android:id="@+id/textLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="200dp"
-        android:hint="@string/SaisieMDP"
 
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.621">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtPasse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:textColorHint="#757575"
-            tools:ignore="TouchTargetSizeCheck" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textView2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="200dp"
         android:hint="@string/identifiant"
-
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582">
-
+        app:layout_constraintTop_toBottomOf="@+id/TextCompte">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtLogin"
@@ -106,39 +63,85 @@
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="#4E342E"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck">
+
+        </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/cbRemember"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="40dp"
-        android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/textSaveLog"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:useMaterialThemeColors="true" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textMdp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
 
-    <Button
-        android:id="@+id/btnLogin"
+        android:hint="@string/SaisieMDP"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textLogin">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtMdpCompte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="#757575"
+            tools:ignore="TouchTargetSizeCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textMdp2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+
+        android:hint="@string/SaisieMDP"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMdp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtMdpCompte2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="#757575"
+            tools:ignore="TouchTargetSizeCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeMdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
-        android:text="Se connecter"
+        android:layout_marginTop="45dp"
+        android:text="Changer Mot de passe"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSaveLog" />
-
-    <ImageView
-        android:id="@+id/Logo2iLogin"
-        android:layout_width="260dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ig2i" />
+        app:layout_constraintTop_toBottomOf="@+id/textMdp2">
+        
+    </com.google.android.material.button.MaterialButton>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

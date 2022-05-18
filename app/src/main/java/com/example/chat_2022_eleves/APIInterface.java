@@ -17,4 +17,6 @@ public interface APIInterface {
 
         /*@POST("conversations/{id}/messages?")
         Call<Message> doSetListMessage(@Header("hash") String hash, @Path("id") int convId, @Query("contenu") String contenu);*/
+
+
 }
