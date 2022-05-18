@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +43,11 @@ public class ConvActivity extends AppCompatActivity {
     @ViewById(R.id.messageRecyclerView)
     RecyclerView messageRecyclerView;
 
+    @ViewById(R.id.conversation_btnOK)
+    public Button btnOkEnvoyerMessage;
+
+    @ViewById(R.id.conversation_edtMessage)
+    public TextInputLayout edtMessage;
 
     ListMessages messages;
     private MessagesAdapter messagesAdapter;
@@ -52,6 +59,10 @@ public class ConvActivity extends AppCompatActivity {
         hash = bdl.getString("hash");
         conversationId = Integer.parseInt(bdl.getString("conversationId"));
 
+        updateMessagesList();
+    }
+
+    void updateMessagesList(){
         apiService = APIClient.getClient().create(APIInterface.class);
         Call<ListMessages> call1 = apiService.doGetListMessage(hash,conversationId);
         doInBackground(call1);
@@ -69,6 +80,7 @@ public class ConvActivity extends AppCompatActivity {
                 messageRecyclerView.setAdapter(messagesAdapter);
                 messageRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+                messageRecyclerView.scrollToPosition(messages.getMessages().size() - 1);
                 //onPostExecute(adapter, idArray);
             }
 
@@ -106,6 +118,50 @@ public class ConvActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Click(R.id.conversation_btnOK)
+    public void sendMessage(){
+        if(edtMessage != null) {
+            String contenu = edtMessage.getEditText().getText().toString();
+            if(contenu.length() > 0) {
+                apiService = APIClient.getClient().create(APIInterface.class);
+                Call<Message> call1 = apiService.doPostMessage(hash, conversationId, contenu);
+                doInBackground(call1, contenu);
+            }
+        }
+    }
+
+    @Background
+    void doInBackground(Call<Message> call1, String contenu) {
+        call1.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
+                gs.alerter("Message envoyé" );
+
+                String id = response.body().getId();
+                String contenu = response.body().getContenu();
+                String auteur = response.body().getAuteur();
+                String couleur = response.body().getCouleur();
+
+                Message newMessage = new Message(id,contenu,auteur,couleur);
+
+                onPostExecute(newMessage);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Message> call, @NonNull Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    @UiThread
+    void onPostExecute(Message newMessage) {
+
+        messagesAdapter.addMessage(newMessage);
+        edtMessage.getEditText().setText("");
+        updateMessagesList();
     }
 
 

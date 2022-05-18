@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chat_2022_eleves.object.Message;
 
+import org.androidannotations.annotations.ViewById;
+
 import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder> {
@@ -41,8 +43,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     }
 
 
+    public boolean addMessage(Message m){
+        return messages.add(m);
+    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView auteurTV;
         private TextView contenuTV;
 
@@ -56,6 +61,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         void display(Message message){
             auteurTV.setText(message.getAuteur());
             contenuTV.setText(message.getContenu());
+        }
+
+
+        @Override
+        public void onClick(View view) {
+
         }
     }
 }

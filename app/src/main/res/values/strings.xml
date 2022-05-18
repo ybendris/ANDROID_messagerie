@@ -11,4 +11,5 @@
     <string name="identifiant">Identifiant</string>
     <string name="choisir_la_conversation">Liste des conversations</string>
     <string name="ok">ok</string>
+    <string name="hintMessage">Tapez votre message</string>
 </resources>

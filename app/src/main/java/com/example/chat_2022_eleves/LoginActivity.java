@@ -83,6 +83,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<Authentification> call, @NotNull Response<Authentification> response) {
                 auth = response.body();
+                //TODO ne pas oublier en cas de problèmes de mdp
+                if(auth == null) return;
+
                 Log.i(gs.CAT,response.body().toString());
 
                 Intent versChoixConv = new Intent(LoginActivity.this,ChoixConvActivity_.class);
