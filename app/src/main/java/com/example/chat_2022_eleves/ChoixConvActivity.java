@@ -133,6 +133,11 @@ public class ChoixConvActivity extends AppCompatActivity{
 
             case R.id.action_account:
                 gs.alerter("Compte");
+                Intent toAccount = new Intent(this,CompteActivity_.class);
+                Bundle bdl = new Bundle();
+                bdl.putString("hash", hash);
+                toAccount.putExtras(bdl);
+                startActivity(toAccount);
                 break;
 
         }

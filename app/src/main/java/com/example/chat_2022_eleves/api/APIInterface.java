@@ -4,11 +4,13 @@ import com.example.chat_2022_eleves.object.Authentification;
 import com.example.chat_2022_eleves.object.ListConversations;
 import com.example.chat_2022_eleves.object.ListMessages;
 import com.example.chat_2022_eleves.object.Message;
+import com.example.chat_2022_eleves.object.User;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,6 +23,15 @@ public interface APIInterface {
          */
         @POST("authenticate")
         Call<Authentification> doAuthenticate(@Query("user") String user, @Query("password") String password);
+
+        /**
+         * Changer mot de passe
+         * @param hash
+         * @param password
+         * @return
+         */
+        @PUT("users")
+        Call<User> doNewMDP(@Header("hash") String hash, @Query("password") String password);
 
         /**
          * Liste les conversations
@@ -38,9 +49,6 @@ public interface APIInterface {
          */
         @GET("conversations/{id}/messages")
         Call<ListMessages> doGetListMessage(@Header("hash") String hash, @Path("id") int convId);
-
-
-
 
 
         @POST("conversations/{id}/messages")
