@@ -18,10 +18,11 @@
         <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/mipmap-anydpi-v26/logo_centrale.xml" value="0.1605" />
         <entry key="..\:/Frontend_Android/Projet Android/ANDROID_messagerie/app/src/main/res/xml/preferences.xml" value="0.24365942028985507" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_choix_conversation.xml" value="0.25" />
-        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_conversation.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_login.xml" value="0.19746376811594202" />
-        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_show_conversation.xml" value="0.1480978260869565" />
+        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_conversation.xml" value="0.25" />
+        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/activity_show_conversation.xml" value="0.22" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/dropdown_items.xml" value="0.2536231884057971" />
+        <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/message.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/layout/spinner_item.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/yanni/OneDrive/Bureau/LE4/Option_SI/Frontend/Android/ANDROID_messagerie/app/src/main/res/menu/menu.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
