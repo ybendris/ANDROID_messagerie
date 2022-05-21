@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.chat_2022_eleves.api.APIClient;
 import com.example.chat_2022_eleves.api.APIInterface;
@@ -40,6 +41,7 @@ public class ChoixConvActivity extends AppCompatActivity{
     ListConversations conversations;
     int idItemSelected = Integer.MAX_VALUE;
     public GlobalState gs;
+    ConstraintLayout constraintLayout;
 
     @ViewById(R.id.dropdown_text)
     AutoCompleteTextView dropdownText;
@@ -50,7 +52,7 @@ public class ChoixConvActivity extends AppCompatActivity{
         Log.i(gs.CAT,bdl.getString("hash"));
         hash = bdl.getString("hash");
         gs = (GlobalState) getApplication();
-
+        constraintLayout=findViewById(R.id.ViewChoixConv);
         apiService = APIClient.getClient().create(APIInterface.class);
         Call<ListConversations> call1 = apiService.doGetListConversation(hash);
         doInBackground(call1);
@@ -91,7 +93,8 @@ public class ChoixConvActivity extends AppCompatActivity{
         dropdownText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                gs.alerter("ID ITEM SELECTED " + Integer.toString(idArray.get(arg2)));
+                String s = ( "ID ITEM SELECTED " + Integer.toString(idArray.get(arg2)));
+                gs.alerter(s,constraintLayout);
                 idItemSelected = idArray.get(arg2);
             }
         });
@@ -99,11 +102,11 @@ public class ChoixConvActivity extends AppCompatActivity{
     }
 
     @Click
-    void buttonChoixOKMD() {
-        gs.alerter("Click sur OK Conv");
+    void okConv() {
+        gs.alerter("Conversation sélectionnée", constraintLayout);
         if(idItemSelected == Integer.MAX_VALUE){
             dropdownText.setError("Veuillez sélectionner une conversation",null);
-            gs.alerter("Veuillez sélectionner une conversation");
+            gs.alerter("Veuillez sélectionner une conversation", constraintLayout);
         }
         else{
             Intent change2Conv = new Intent(this,ConvActivity_.class);
@@ -125,14 +128,14 @@ public class ChoixConvActivity extends AppCompatActivity{
         int id = item.getItemId();
         switch(id) {
             case R.id.action_settings:
-                gs.alerter("Préférences");
+                gs.alerterToast("Chargement des préférences");
                 // Changer d'activité pour afficher SettingsActivity
                 Intent toSettings = new Intent(this,SettingsActivity.class);
                 startActivity(toSettings);
                 break;
 
             case R.id.action_account:
-                gs.alerter("Compte");
+                gs.alerterToast("Accès au compte");
                 Intent toAccount = new Intent(this,CompteActivity_.class);
                 Bundle bdl = new Bundle();
                 bdl.putString("hash", hash);

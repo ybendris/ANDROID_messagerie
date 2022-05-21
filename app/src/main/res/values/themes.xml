@@ -5,8 +5,11 @@
         <item name="colorPrimary">@color/Orange2i</item>
         <item name="colorPrimaryDark">@color/Orange2i</item>
         <item name="colorAccent">@color/Orange2i</item>
+
+        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
         <!-- Customize your theme here. -->
     </style>
+
 
 
 </resources>

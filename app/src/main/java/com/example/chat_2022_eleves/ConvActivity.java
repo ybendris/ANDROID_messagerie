@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,12 +53,15 @@ public class ConvActivity extends AppCompatActivity {
     ListMessages messages;
     private MessagesAdapter messagesAdapter;
 
+    ConstraintLayout constraintLayout;
+
     @AfterViews
     void initialize() {
         Bundle bdl = this.getIntent().getExtras();
         Log.i(gs.CAT,bdl.getString("hash"));
         hash = bdl.getString("hash");
         conversationId = Integer.parseInt(bdl.getString("conversationId"));
+        constraintLayout=findViewById(R.id.ViewConv);
 
         updateMessagesList();
     }
@@ -105,15 +109,15 @@ public class ConvActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id) {
-            case R.id.action_settings: gs.alerter("Préférences");
-
+            case R.id.action_settings:
+                gs.alerterToast("Chargement des préférences");
                 // Changer d'activité pour afficher SettingsActivity
                 Intent toSettings = new Intent(this,SettingsActivity.class);
                 startActivity(toSettings);
                 break;
 
             case R.id.action_account:
-                gs.alerter("Compte");
+                gs.alerterToast("Accés au compte");
                 Intent toAccount = new Intent(this,CompteActivity_.class);
                 Bundle bdl = new Bundle();
                 bdl.putString("hash", hash);
@@ -142,7 +146,7 @@ public class ConvActivity extends AppCompatActivity {
         call1.enqueue(new Callback<Message>() {
             @Override
             public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
-                gs.alerter("Message envoyé" );
+                gs.alerter("Message envoyé", constraintLayout );
 
                 String id = response.body().getId();
                 String contenu = response.body().getContenu();

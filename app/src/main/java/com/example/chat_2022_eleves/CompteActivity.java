@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.chat_2022_eleves.api.APIClient;
 import com.example.chat_2022_eleves.api.APIInterface;
@@ -49,6 +50,7 @@ public class CompteActivity extends AppCompatActivity {
     public APIInterface apiService;
     User mdp;
     String hash;
+    ConstraintLayout constraintLayout;
 
     @AfterViews
     void init() {
@@ -56,12 +58,13 @@ public class CompteActivity extends AppCompatActivity {
         gs = (GlobalState) getApplication();
         Bundle bdl = this.getIntent().getExtras();
         hash = bdl.getString("hash");
+        constraintLayout=findViewById(R.id.ViewCompte);
         apiService = APIClient.getClient().create(APIInterface.class);
     }
 
     @Click(R.id.btnChangeMdp)
     void onClickbtnChangerMdp(){
-        gs.alerter("Changement ...");
+        gs.alerterToast("Changement ...");
         Log.i("IG2I",edtPasse.getText().toString() );
         Log.i("IG2I",edtPasse2.getText().toString() );
         String mdp1 = edtPasse.getText().toString();
@@ -73,7 +76,7 @@ public class CompteActivity extends AppCompatActivity {
             doInBackground(call1);
         }
         else{
-            gs.alerter("Les mots de passes ne sont pas identiques");
+            gs.alerterToast("Les mots de passes ne sont pas identiques");
             return;
         }
 
@@ -87,7 +90,7 @@ public class CompteActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (hash == "") return;
                 Log.i("IG2I", String.valueOf(response.body()));
-                gs.alerter("Mot de passe modifié");
+                gs.alerterToast("Mot de passe modifié");
             }
 
             @Override

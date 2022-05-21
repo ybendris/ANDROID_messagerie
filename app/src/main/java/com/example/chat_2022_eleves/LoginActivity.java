@@ -10,10 +10,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.chat_2022_eleves.api.APIClient;
 import com.example.chat_2022_eleves.api.APIInterface;
 import com.example.chat_2022_eleves.object.Authentification;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -45,11 +47,14 @@ public class LoginActivity extends AppCompatActivity {
     public GlobalState gs;
     public APIInterface apiService;
     Authentification auth;
+    ConstraintLayout constraintLayout;
+
 
     @AfterViews
     void init() {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         gs = (GlobalState) getApplication();
+        constraintLayout=findViewById(R.id.Viewlogin);
         btnLogin.setEnabled(gs.verifReseau());
         apiService = APIClient.getClient().create(APIInterface.class);
 
@@ -72,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.btnLogin)
     void onClickBtnLogin(){
-        gs.alerter("click OK");
+        gs.alerter("Connexion", constraintLayout);
         Call<Authentification> call1 = apiService.doAuthenticate(edtLogin.getText().toString(),edtPasse.getText().toString());
         doInBackground(call1);
     }
@@ -103,10 +108,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Click(R.id.cbRemember)
     void onClickCbRemember(){
         SharedPreferences.Editor editor = sp.edit();
-        gs.alerter("click Se souvenir de moi");
+        gs.alerter("Identifiant et Mot de passe enregistrés", constraintLayout);
+
         if (cbRemember.isChecked()) {
             // on sauvegarde tout
             editor.putBoolean("remember", true);
@@ -120,4 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         editor.commit();
     }
+
+
+    
 }

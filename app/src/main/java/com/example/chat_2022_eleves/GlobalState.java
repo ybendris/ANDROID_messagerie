@@ -1,10 +1,18 @@
 package com.example.chat_2022_eleves;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -19,10 +27,28 @@ import java.net.URL;
 public class GlobalState extends Application {
     public static final String CAT = "IG2I";
 
-    public void alerter(String s) {
+    public void alerter(String s, ConstraintLayout constraintLayout) {
+        Log.i(CAT,s);
+        showSnackbarDefault(constraintLayout, s);
+
+    }
+    public void alerterToast(String s) {
         Log.i(CAT,s);
         Toast t = Toast.makeText(this,s,Toast.LENGTH_SHORT);
         t.show();
+
+    }
+
+    private void showSnackbarDefault(ConstraintLayout constraintLayout, String texte) {
+        Snackbar snackbar = Snackbar
+                .make(constraintLayout, texte, Snackbar.LENGTH_LONG);
+
+        snackbar.setTextColor(Color.parseColor("#000000"));
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.Gris));
+
+        // Show
+        snackbar.show();
     }
 
     private String convertStreamToString(InputStream in) throws IOException {
@@ -72,7 +98,7 @@ public class GlobalState extends Application {
             }
         }
 
-        this.alerter(sType);
+        this.alerterToast(sType);
         return bStatut;
     }
 
